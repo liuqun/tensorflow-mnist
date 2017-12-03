@@ -5,8 +5,8 @@ import tensorflow as tf
 def regression(x):
     W = tf.Variable(tf.zeros([784, 10]), name="W")
     b = tf.Variable(tf.zeros([10]), name="b")
-    y = tf.nn.softmax(tf.matmul(x, W) + b)
-    return y, [W, b]
+    logits = tf.matmul(x, W) + b
+    return logits, [W, b]
 
 
 # Multilayer Convolutional Network
@@ -46,5 +46,5 @@ def convolutional(x, keep_prob):
     # Readout Layer
     W_fc2 = weight_variable([1024, 10])
     b_fc2 = bias_variable([10])
-    y = tf.nn.softmax(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)
-    return y, [W_conv1, b_conv1, W_conv2, b_conv2, W_fc1, b_fc1, W_fc2, b_fc2]
+    logits = tf.matmul(h_fc1_drop, W_fc2) + b_fc2
+    return logits, [W_conv1, b_conv1, W_conv2, b_conv2, W_fc1, b_fc1, W_fc2, b_fc2]

@@ -8,11 +8,12 @@ data = input_data.read_data_sets("/tmp/data/", one_hot=True)
 # model
 with tf.variable_scope("regression"):
     x = tf.placeholder(tf.float32, [None, 784])
-    y, variables = model.regression(x)
+    logits, variables = model.regression(x)
+    y = tf.nn.softmax(logits)
 
 # train
 y_ = tf.placeholder("float", [None, 10])
-cross_entropy = -tf.reduce_sum(y_ * tf.log(y))
+cross_entropy = tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=logits)
 train_step = tf.train.GradientDescentOptimizer(0.01).minimize(cross_entropy)
 correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))

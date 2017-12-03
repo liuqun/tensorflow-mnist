@@ -9,11 +9,12 @@ data = input_data.read_data_sets("/tmp/data/", one_hot=True)
 with tf.variable_scope("convolutional"):
     x = tf.placeholder(tf.float32, [None, 784])
     keep_prob = tf.placeholder(tf.float32)
-    y, variables = model.convolutional(x, keep_prob)
+    logits, variables = model.convolutional(x, keep_prob)
+    y = tf.nn.softmax(logits)
 
 # train
 y_ = tf.placeholder(tf.float32, [None, 10])
-cross_entropy = -tf.reduce_sum(y_ * tf.log(y))
+cross_entropy = tf.nn.softmax_cross_entropy_with_logits(labels=y_, logits=logits)
 train_step = tf.train.AdamOptimizer(1e-4).minimize(cross_entropy)
 correct_prediction = tf.equal(tf.argmax(y, 1), tf.argmax(y_, 1))
 accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
