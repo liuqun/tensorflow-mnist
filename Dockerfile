@@ -16,7 +16,8 @@ WORKDIR /usr/src/app
 COPY requirements.txt /usr/src/app/
 RUN pip install --no-cache-dir -r requirements.txt
 
-COPY package*.json gulpfile.js src /usr/src/app/
+COPY package*.json gulpfile.js /usr/src/app/
+COPY src /usr/src/app/src
 RUN npm install --only=production
 
 COPY . /usr/src/app/
