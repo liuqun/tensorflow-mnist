@@ -5,3 +5,4 @@ venv
 *.pyc
 __pycache__
 static/js/main.js
+yarn-*.log
