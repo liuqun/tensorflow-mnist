@@ -19,11 +19,13 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Set production environment for nodejs application
 ENV NODE_ENV=production
 
-COPY package*.json gulpfile.js /usr/src/app/
-COPY src /usr/src/app/src
+COPY package*.json /usr/src/app/
 RUN npm install
 
 COPY . /usr/src/app/
+
+# Generate "static/js/*.js" from "src/js/*.js"
+RUN /usr/src/app/node_modules/.bin/gulp
 
 EXPOSE 8000
 
