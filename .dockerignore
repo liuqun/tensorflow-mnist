@@ -1,0 +1,8 @@
+node_modules
+npm-debug.log
+.git
+venv
+*.pyc
+__pycache__
+static/js/main.js
+yarn-*.log

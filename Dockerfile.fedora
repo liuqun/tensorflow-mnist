@@ -1,0 +1,30 @@
+# Dockerfile
+#
+# https://nodejs.org/en/docs/guides/nodejs-docker-webapp/
+
+FROM fedora:28
+
+RUN dnf install -y \
+        libstdc++ \
+        nodejs-1:8.11.0 \
+        npm-1:5.6.0 \
+        python3-3.6.5 \
+        python3-pip \
+        python3-setuptools \
+    && npm install --global yarn \
+    && dnf clean all
+
+WORKDIR /usr/src/app
+
+COPY requirements.txt /usr/src/app/
+RUN pip3 install --no-cache-dir -r requirements.txt
+
+COPY package*.json gulpfile.js /usr/src/app/
+COPY src /usr/src/app/src
+RUN yarn install --ignore-engines
+
+COPY . /usr/src/app/
+
+EXPOSE 8000
+
+CMD [ "gunicorn", "main:app", "--log-file=-", "--bind=0.0.0.0:8000" ]
