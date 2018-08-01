@@ -18,7 +18,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY package*.json gulpfile.js /usr/src/app/
 COPY src /usr/src/app/src
-RUN npm install --only=production
+RUN yarn install --ignore-engines
 
 COPY . /usr/src/app/
 

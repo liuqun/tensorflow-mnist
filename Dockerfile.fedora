@@ -11,6 +11,7 @@ RUN dnf install -y \
         python3-3.6.5 \
         python3-pip \
         python3-setuptools \
+    && npm install --global yarn \
     && dnf clean all
 
 WORKDIR /usr/src/app
@@ -20,7 +21,7 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 
 COPY package*.json gulpfile.js /usr/src/app/
 COPY src /usr/src/app/src
-RUN npm install --only=production
+RUN yarn install --ignore-engines
 
 COPY . /usr/src/app/
 
