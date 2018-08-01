@@ -16,9 +16,12 @@ WORKDIR /usr/src/app
 COPY requirements.txt /usr/src/app/
 RUN pip install --no-cache-dir -r requirements.txt
 
+# Set production environment for nodejs application
+ENV NODE_ENV=production
+
 COPY package*.json gulpfile.js /usr/src/app/
 COPY src /usr/src/app/src
-RUN npm install --only=production
+RUN npm install
 
 COPY . /usr/src/app/
 
