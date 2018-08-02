@@ -10,15 +10,17 @@ sess = tf.Session()
 
 # restore trained data
 with tf.variable_scope("regression"):
-    y1, variables = model.regression(x)
-saver = tf.train.Saver(variables)
+    logits1, variables1 = model.regression(x)
+    y1 = tf.nn.softmax(logits1)
+saver = tf.train.Saver(variables1)
 saver.restore(sess, "mnist/data/regression.ckpt")
 
 
 with tf.variable_scope("convolutional"):
     keep_prob = tf.placeholder("float")
-    y2, variables = model.convolutional(x, keep_prob)
-saver = tf.train.Saver(variables)
+    logits2, variables2 = model.convolutional(x, keep_prob)
+    y2 = tf.nn.softmax(logits2)
+saver = tf.train.Saver(variables2)
 saver.restore(sess, "mnist/data/convolutional.ckpt")
 
 
